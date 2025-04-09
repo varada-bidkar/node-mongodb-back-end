@@ -23,7 +23,7 @@ catch(err){
 server.post('/register',async(req,res)=>{
     try{
         const {fullName,userName,age,password} = req.body
-        const userExist = await User.FindOne({userName})
+        const userExist = await User.findOne({userName})
         if(userExist){
             return res.json({status:false,message:"USer alraedy exist"})
         }
