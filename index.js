@@ -3,11 +3,12 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const User = require('./models/User')
+const Productroutes = require('./routes/Productroutes')
 
 const server = express()
 server.use(cors())
 server.use(bodyParser.json())
-
+server.use('/product',Productroutes)
 
 
 try{
@@ -25,7 +26,7 @@ server.post('/register',async(req,res)=>{
         const {fullName,userName,age,password} = req.body
         const userExist = await User.findOne({userName})
         if(userExist){
-            return res.json({status:false,message:"USer alraedy exist"})
+            return res.json({status:false,message:"User already exist"})
         }
         const user = new User({fullName,userName,age,password})
         user.save()
@@ -49,19 +50,19 @@ server.post('/login',async(req,res)=>{
          if(!userExist){
             return res.json({
                 status:false,
-                message:"user not found"
+                message:"User not found"
             })
          }
          if(password!==userExist.password){
             return res.json({
                 status:false,
-                message:"wrong password"
+                message:"Wrong password"
             })
          }
 
          res.json({
             status:true,
-            message:"login successful"
+            message:"Login successful"
          })
 
     }catch(err){
